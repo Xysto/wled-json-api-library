@@ -35,6 +35,12 @@ fn main() {
             seg: None,
         });
 
+        // or use this nice syntax
+        wled.state = Some(State {
+            on: Some(true),
+            ..Default::default()
+        });
+
         // flush and print the server response
         let response = wled.flush_state().unwrap();
         println!("turning the thing off {:?}", response.text());
@@ -44,7 +50,7 @@ fn main() {
     // fill internal cfg with result from WLED
     wled.get_cfg_from_wled().unwrap();
 
-    // get the field defining the power on boot default behaviour
+    // get the field defining the power on boot default behavior
     let turn_on_after_boot = wled.cfg.unwrap().def.unwrap().on.unwrap();
     // print it
     println!("received cfg, turn on after boot: {:?}", turn_on_after_boot);
@@ -52,27 +58,12 @@ fn main() {
 
     // put the desired change into the config data member
     wled.cfg = Some(Cfg{
-        rev: None,
-        vid: None,
-        id: None,
-        nw: None,
-        eth: None,
-        ap: None,
-        wifi: None,
-        hw: None,
-        light: None,
         def: Some(Def{
             ps: None,
             on: Some(!turn_on_after_boot),
             bri: None,
         }),
-        if_field: None,
-        remote: None,
-        ol: None,
-        timers: None,
-        ota: None,
-        dmx: None,
-        um: None,
+        ..Default::default()
     });
 
     // print the response.
