@@ -16,7 +16,7 @@ fn main() {
     {
         // put the desired change in the internal state data member
         wled.state = Some(State {
-            on: Some(true),
+            on: Some(false),
             bri: None,
             transition: None,
             tt: None,
@@ -37,7 +37,7 @@ fn main() {
 
         // or use this nice syntax
         wled.state = Some(State {
-            on: Some(true),
+            on: Some(false),
             ..Default::default()
         });
 
