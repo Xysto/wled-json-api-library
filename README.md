@@ -124,3 +124,9 @@ fn main() {
 }
 
 ```
+
+
+## Update
+
+I've since learned more Rust and hate the way this project is structured. I don't know how else to make it dynamic enough to work across many versions, but I hate the `wled.x.unwrap().y.unwrap().z.unwrap()`. At least I learned about `..Default::default()`
+
