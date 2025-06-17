@@ -5,7 +5,7 @@ easy way to control WLED with their [JSON API](https://kno.wled.ge/interfaces/js
 ## Documentation
 This library has a pretty sizable amount of documentation for what each field means, 
 so even if you are making your own library or can't use Rust, 
-this is the best spot I can find to figure out what various feilds mean.
+this is the best spot I can find to figure out what various fields mean.
 Most are not on the JSON API page, and most of the rest isn't even commented in the WLED source code.
 
 If you are the kind soul who wants to put this documentation of the WLED-docs, and can't read rust, here are some pointers:
@@ -32,7 +32,10 @@ I decided not to implement this in this library but if you wish to add it, the i
 
 
 ## Example
-``` rust
+
+From `examples/basic_example.rs`
+
+```rust
 use std::time::Duration;
 use reqwest::Url;
 use wled_json_api_library::wled::Wled;
@@ -51,7 +54,7 @@ fn main() {
     {
         // put the desired change in the internal state data member
         wled.state = Some(State {
-            on: Some(true),
+            on: Some(false),
             bri: None,
             transition: None,
             tt: None,
@@ -70,6 +73,12 @@ fn main() {
             seg: None,
         });
 
+        // or use this nice syntax
+        wled.state = Some(State {
+            on: Some(false),
+            ..Default::default()
+        });
+
         // flush and print the server response
         let response = wled.flush_state().unwrap();
         println!("turning the thing off {:?}", response.text());
@@ -79,7 +88,7 @@ fn main() {
     // fill internal cfg with result from WLED
     wled.get_cfg_from_wled().unwrap();
 
-    // get the field defining the power on boot default behaviour
+    // get the field defining the power on boot default behavior
     let turn_on_after_boot = wled.cfg.unwrap().def.unwrap().on.unwrap();
     // print it
     println!("received cfg, turn on after boot: {:?}", turn_on_after_boot);
@@ -87,27 +96,12 @@ fn main() {
 
     // put the desired change into the config data member
     wled.cfg = Some(Cfg{
-        rev: None,
-        vid: None,
-        id: None,
-        nw: None,
-        eth: None,
-        ap: None,
-        wifi: None,
-        hw: None,
-        light: None,
         def: Some(Def{
             ps: None,
             on: Some(!turn_on_after_boot),
             bri: None,
         }),
-        if_field: None,
-        remote: None,
-        ol: None,
-        timers: None,
-        ota: None,
-        dmx: None,
-        um: None,
+        ..Default::default()
     });
 
     // print the response.
@@ -128,4 +122,5 @@ fn main() {
     println!("received cfg, turn on after boot: {:?}", turn_on_after_boot);
 
 }
+
 ```
